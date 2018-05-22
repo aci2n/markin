@@ -1,15 +1,17 @@
 import os.path
 from aqt import mw
-from .shots import deckbrowser
+from .shots import deckbrowser, overview
 
 class MarkIn():
     def __init__(self):
-        self.registry = [deckbrowser.DeckBrowserShot]
         self.config = mw.addonManager.getConfig(__name__)
+        self.registry = [
+            deckbrowser(),
+            overview()
+        ]
     
     def load(self):
-        for Shot in self.registry:
-            shot = Shot()
+        for shot in self.registry:
             html = self.read(shot.name())
             
             if html != None:
