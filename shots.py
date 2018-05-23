@@ -5,12 +5,15 @@ class Shot():
     def inject(self, html):
         pass
 
+def escape(html):
+    return html.replace('%', '%%')
+
 class overview(Shot):
     def inject(self, html):
         from aqt.overview import Overview
-        Overview._body += html
+        Overview._body += escape(html)
 
 class deckbrowser(Shot):
     def inject(self, html):
         from aqt.deckbrowser import DeckBrowser
-        DeckBrowser._body += html
+        DeckBrowser._body += escape(html)
