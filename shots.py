@@ -1,19 +1,21 @@
-class Shot():
+import os.path
+from .html import HtmlProcessor
+
+class Shot:
+    htmlProcessor = HtmlProcessor()
+
     def name(self):
         return self.__class__.__name__
-        
-    def inject(self, html):
-        pass
 
-def escape(html):
-    return html.replace('%', '%%')
+    def extendBody(self, view, html):
+        view._body += self.htmlProcessor.process(html)
 
 class overview(Shot):
     def inject(self, html):
         from aqt.overview import Overview
-        Overview._body += escape(html)
+        super().extendBody(Overview, html)
 
 class deckbrowser(Shot):
     def inject(self, html):
         from aqt.deckbrowser import DeckBrowser
-        DeckBrowser._body += escape(html)
+        super().extendBody(DeckBrowser, html)

@@ -1,16 +1,21 @@
 import os.path
-from aqt import mw
+from aqt import mw, qt
 from .shots import deckbrowser, overview
 
 class MarkIn():
-    def __init__(self):
-        self.config = mw.addonManager.getConfig(__name__)
-        self.registry = [
-            deckbrowser(),
-            overview()
-        ]
-    
+    config = mw.addonManager.getConfig(__name__)
+    registry = [deckbrowser(), overview()]
+
     def load(self):
+        if self.config['debug'] == True:
+            action = qt.QAction('markin', mw)
+            action.triggered.connect(lambda: self.inject())
+            action.addShortcut('Ctrl+L')
+            mw.form.menuTools.addAction(action)
+        else:
+            self.inject()
+    
+    def inject(self):
         for shot in self.registry:
             html = self.read(shot.name())
             
