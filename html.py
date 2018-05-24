@@ -3,7 +3,7 @@ import os
 import base64
 
 class HtmlProcessor:
-    fileRe = re.compile(r'file://([^"]+)')
+    fileRe = re.compile(r'file:///([^"]+)')
 
     def escape(self, html):
         return html.replace('%', '%%')
